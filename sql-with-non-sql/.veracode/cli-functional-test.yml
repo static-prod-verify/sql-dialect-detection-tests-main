@@ -1,0 +1,23 @@
+name: sql-with-non-sql
+testcases:
+  - name: Package sql-with-non-sql repo
+    steps:
+      - script: |
+          cd ../
+          veracode package --source . --type directory --output .veracode/output/auto --trust
+        assertions:
+          - result.code ShouldEqual 0
+          - result.timeseconds ShouldBeLessThan 30
+          - result.systemout ShouldContainSubstring "veracode-auto-pack-sql-with-non-sql-python-no-pm.zip"
+          - result.systemout ShouldContainSubstring "veracode-auto-pack-sql-with-non-sql-sql.zip"
+          - result.systemout ShouldContainSubstring "Successfully created 2 artifact(s)."
+
+      - type: check-zip-count
+        zip-file: "veracode-auto-pack-sql-with-non-sql-sql.zip"
+        assertions:
+          - result.zip-file.count ShouldEqual 1
+
+      - type: check-zip-contents
+        zip-file: "veracode-auto-pack-sql-with-non-sql-sql.zip"
+        assertions:
+          - result.zip-file.difference ShouldBeEmpty

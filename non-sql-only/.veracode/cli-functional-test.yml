@@ -1,0 +1,15 @@
+name: non-sql-only
+testcases:
+  - name: Package non-sql-only repo
+    steps:
+      - script: |
+          cd ../
+          veracode package --source . --type directory --output .veracode/output/auto --trust
+        assertions:
+          - result.code ShouldEqual 0
+          - result.timeseconds ShouldBeLessThan 90
+          - result.systemout ShouldContainSubstring "veracode-auto-pack-frontend-js.zip"
+          - result.systemout ShouldContainSubstring "Build successful"
+          - result.systemout ShouldContainSubstring "non-sql-only-app-1.0.0.jar"
+          - result.systemout ShouldContainSubstring "Successfully created 2 artifact(s)."
+          - result.systemout ShouldNotContainSubstring "veracode-auto-pack-non-sql-only-sql.zip"

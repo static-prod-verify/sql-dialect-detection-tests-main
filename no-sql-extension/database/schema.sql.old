@@ -1,0 +1,6 @@
+-- SQL code in .old file (should be ignored)
+CREATE TABLE [dbo].[DeprecatedSchema]
+(
+    ID INT
+)
+GO

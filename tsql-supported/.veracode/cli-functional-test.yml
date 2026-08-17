@@ -1,0 +1,22 @@
+name: tsql-supported
+testcases:
+  - name: Package tsql-supported repo
+    steps:
+      - script: |
+          cd ../
+          veracode package --source . --type directory --output .veracode/output/auto --trust
+        assertions:
+          - result.code ShouldEqual 0
+          - result.timeseconds ShouldBeLessThan 30
+          - result.systemout ShouldContainSubstring "veracode-auto-pack-tsql-supported-sql.zip"
+          - result.systemout ShouldContainSubstring "Successfully created 1 artifact(s)."
+
+      - type: check-zip-count
+        zip-file: "veracode-auto-pack-tsql-supported-sql.zip"
+        assertions:
+          - result.zip-file.count ShouldEqual 4
+
+      - type: check-zip-contents
+        zip-file: "veracode-auto-pack-tsql-supported-sql.zip"
+        assertions:
+          - result.zip-file.difference ShouldBeEmpty

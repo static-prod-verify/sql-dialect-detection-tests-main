@@ -1,0 +1,8 @@
+SQL code in a .txt file (should be ignored by SQL detector)
+
+CREATE PROCEDURE GetData
+AS
+BEGIN
+    SELECT * FROM Products
+END
+GO

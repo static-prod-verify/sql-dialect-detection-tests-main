@@ -1,0 +1,12 @@
+name: mysql-only
+testcases:
+  - name: Package mysql-only repo
+    steps:
+      - script: |
+          cd ../
+          veracode package --source . --type directory --output .veracode/output/auto --trust
+        assertions:
+          - result.code ShouldEqual 4
+          - result.timeseconds ShouldBeLessThan 30
+          - result.systemout ShouldContainSubstring "[WARN] SQL source code discovered that is not PL/SQL or TSQL, skipping SQL packaging."
+          - result.systemout ShouldContainSubstring "Successfully ran packager tool, but no artifacts identified."
